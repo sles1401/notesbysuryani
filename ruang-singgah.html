@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruang Singgah — Notes by Suryani</title>
+  <meta
+    name="description"
+    content="Ambil satu catatan untuk hari ini dan tinggalkan jejak singkat di Ruang Singgah Notes by Suryani."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="paper-grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-mark">@notesbysuryani</a>
+      <nav class="site-nav" aria-label="Navigasi utama">
+        <a href="index.html">Beranda</a>
+        <a href="tentang.html">Tentang</a>
+        <a href="ruang-singgah.html" class="is-active" aria-current="page">Ruang Singgah</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Hero -->
+    <section class="page-hero section" aria-labelledby="lounge-title">
+      <div class="container reading-column">
+        <p class="eyebrow reveal">Ruang Singgah</p>
+        <h1 id="lounge-title" class="page-title reveal">
+          Berhenti sebentar, <em>tarik napas</em>
+        </h1>
+        <p class="page-lead reveal">
+          Ambil satu kalimat acak untuk menemani harimu, atau tinggalkan
+          sepatah kata kecil sebelum kamu kembali melangkah.
+        </p>
+      </div>
+    </section>
+
+    <!-- Fitur 1: Ambil Satu Catatan untuk Hari Ini -->
+    <section class="draw-section section" aria-labelledby="draw-title">
+      <div class="container reading-column">
+        <div class="section-meta reveal">
+          <span class="section-num">01</span>
+          <span class="section-label">Catatan Hari Ini</span>
+        </div>
+        <h2 id="draw-title" class="section-title reveal">
+          Ambil satu catatan <em>untuk hari ini</em>
+        </h2>
+
+        <div class="draw-card reveal" aria-live="polite">
+          <div class="draw-card-top">
+            <span id="draw-note-num" class="note-tag">Lembar Pilihan</span>
+            <span class="note-dot" aria-hidden="true"></span>
+          </div>
+
+          <blockquote id="draw-note-text" class="draw-quote">
+            “Coba satu hari lagi.”
+          </blockquote>
+
+          <p id="draw-note-caption" class="draw-caption">
+            Kamu tidak harus menyelesaikan semuanya hari ini.
+          </p>
+
+          <div class="draw-actions">
+            <button type="button" id="btn-draw-note" class="btn-soft">
+              <span>Ambil Catatan Lain</span>
+            </button>
+            <button type="button" id="btn-copy-note" class="btn-ghost">
+              Salin Kalimat
+            </button>
+          </div>
+          <p id="copy-feedback" class="copy-feedback" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fitur 2: Jejak Singgah (Kotak Pesan Pembaca) -->
+    <section class="guestbook section" aria-labelledby="guestbook-title">
+      <div class="container reading-column">
+        <div class="section-meta reveal">
+          <span class="section-num">02</span>
+          <span class="section-label">Jejak Singgah</span>
+        </div>
+        <h2 id="guestbook-title" class="section-title reveal">
+          Tinggalkan pesan <em>yang tenang</em>
+        </h2>
+        <p class="prose-intro reveal">
+          Tuliskan satu kalimat untuk dirimu sendiri, atau sapaan hangat bagi
+          siapa pun yang kebetulan membaca halaman ini setelahmu.
+        </p>
+
+        <form id="guestbook-form" class="guestbook-form reveal">
+          <div class="form-field">
+            <label for="visitor-name">Nama atau inisial (opsional)</label>
+            <input
+              type="text"
+              id="visitor-name"
+              name="visitorName"
+              maxlength="40"
+              placeholder="Misal: Seseorang di sore hari"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="visitor-message">Catatan singkatmu</label>
+            <textarea
+              id="visitor-message"
+              name="visitorMessage"
+              rows="3"
+              maxlength="240"
+              required
+              placeholder="Hari ini terasa berat, tapi aku masih di sini..."
+            ></textarea>
+          </div>
+
+          <div class="form-footer">
+            <button type="submit" class="btn-soft">Titipkan Pesan</button>
+            <span class="form-hint">
+              Pesan disimpan secara lokal di perangkatmu sebagai ruang catatan pribadi.
+            </span>
+          </div>
+        </form>
+
+        <div id="guestbook-list" class="guestbook-list" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section" aria-label="Penutup">
+    <div class="container footer-inner">
+      <div class="footer-ornament reveal" aria-hidden="true">❦</div>
+      <p class="footer-whisper reveal">
+        “Jika ada satu kalimat di sini yang terasa dekat, mungkin memang catatan
+        ini sedang menunggumu singgah.”
+      </p>
+
+      <div class="footer-cta reveal">
+        <a
+          href="https://www.tiktok.com/@notesbysuryani"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-tiktok"
+        >
+          <span>Baca catatan lainnya di TikTok</span>
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4.5 10.5L10.5 4.5M10.5 4.5H5.5M10.5 4.5V9.5"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <div class="footer-bottom reveal">
+        <a
+          href="https://www.tiktok.com/@notesbysuryani"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-handle"
+        >
+          @notesbysuryani
+        </a>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <span class="footer-note">Ditulis pelan untuk hari-hari yang tenang.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

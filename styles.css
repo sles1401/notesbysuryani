@@ -136,6 +136,21 @@ body {
   color: var(--text-main);
 }
 
+.site-nav a.is-active {
+  color: var(--text-main);
+  position: relative;
+}
+
+.site-nav a.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background-color: var(--accent-sage);
+}
+
 /* Hero Section */
 .hero {
   min-height: calc(100svh - 68px);
@@ -613,5 +628,347 @@ body {
 
   .site-nav a {
     font-size: 0.78rem;
+  }
+}
+
+/* =========================================================
+   Subpages & Interactive Ruang Singgah Styles
+   ========================================================= */
+
+.section-link-wrap {
+  margin-top: 2.75rem;
+}
+
+.section-link-center {
+  text-align: center;
+}
+
+.editorial-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--text-main);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(138, 154, 134, 0.5);
+  padding-bottom: 0.2rem;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    gap 0.3s var(--ease-calm);
+}
+
+.editorial-link:hover,
+.editorial-link:focus-visible {
+  color: var(--accent-sage);
+  border-color: var(--accent-sage);
+  gap: 0.8rem;
+}
+
+/* Subpage Hero */
+.page-hero {
+  padding-top: clamp(4.5rem, 10vw, 7.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.page-title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+}
+
+.page-title em {
+  font-style: italic;
+  color: var(--accent-sage);
+}
+
+.page-lead {
+  margin: 1.35rem 0 0;
+  max-width: 560px;
+  font-size: clamp(0.98rem, 1.5vw, 1.06rem);
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--text-muted);
+}
+
+/* Tentang: Surat Pembuka & Jejak Pelan */
+.letter-paper {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-hairline);
+  border-radius: 16px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+}
+
+.letter-salutation {
+  margin: 0 0 1.75rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--text-main);
+}
+
+.letter-signoff {
+  margin: 2.5rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--text-main);
+}
+
+.letter-signoff em {
+  font-style: italic;
+  color: var(--accent-sage);
+  font-size: 1.35rem;
+}
+
+.journey-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.journey-item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.journey-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.journey-step {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--accent-sage);
+  padding-top: 0.15rem;
+}
+
+.journey-heading {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--text-main);
+}
+
+.journey-text {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+/* Ruang Singgah: Draw Card */
+.draw-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-hairline);
+  border-radius: 16px;
+  padding: clamp(2rem, 4.5vw, 3rem);
+}
+
+.draw-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+
+.draw-quote {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.65rem, 3.4vw, 2.25rem);
+  line-height: 1.38;
+  color: var(--text-main);
+  transition: opacity 0.35s ease;
+}
+
+.draw-quote.is-fading {
+  opacity: 0;
+}
+
+.draw-caption {
+  margin: 1.25rem 0 0;
+  font-size: 0.92rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  transition: opacity 0.35s ease;
+}
+
+.draw-caption.is-fading {
+  opacity: 0;
+}
+
+.draw-actions {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.draw-actions button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-ghost {
+  padding: 0.82rem 1.45rem;
+  border-radius: 999px;
+  background-color: transparent;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  border: 1px solid rgba(47, 54, 47, 0.16);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  background-color: rgba(230, 223, 211, 0.45);
+  color: var(--text-main);
+  border-color: rgba(47, 54, 47, 0.28);
+}
+
+.copy-feedback {
+  margin: 0.85rem 0 0;
+  min-height: 1.2em;
+  font-size: 0.82rem;
+  color: var(--accent-sage);
+}
+
+/* Ruang Singgah: Guestbook */
+.guestbook {
+  background-color: rgba(230, 223, 211, 0.28);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.prose-intro {
+  margin: 0 0 2rem;
+  font-size: 0.98rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--text-muted);
+}
+
+.guestbook-form {
+  background-color: var(--bg-linen);
+  border: 1px solid var(--border-hairline);
+  border-radius: 14px;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.35rem;
+}
+
+.form-field label {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(47, 54, 47, 0.14);
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--accent-sage);
+  background-color: #FCFBF8;
+}
+
+.form-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.form-footer button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.form-hint {
+  font-size: 0.78rem;
+  color: var(--text-soft);
+}
+
+.guestbook-list {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.guestbook-item {
+  background-color: var(--bg-linen);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: 1.35rem 1.5rem;
+}
+
+.guestbook-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-soft);
+}
+
+.guestbook-author {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--accent-sage);
+}
+
+.guestbook-text {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--text-main);
+}
+
+@media (max-width: 600px) {
+  .journey-item {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
   }
 }
