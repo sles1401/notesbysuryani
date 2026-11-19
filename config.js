@@ -1,6 +1,5 @@
-// Isi kredensial Supabase gratis Anda di sini agar Jejak Singgah tersimpan untuk semua pengunjung.
-// Cara mendapatkan: Supabase Dashboard -> Project Settings -> API (Project URL & anon public key).
+// Kredensial Supabase untuk Jejak Singgah (@notesbysuryani)
 window.NOTES_CONFIG = {
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  supabaseUrl: 'https://vgcqtrudlhiiejtdqxqn.supabase.co',
+  supabaseAnonKey: 'sb_publishable_Ns5Gej9tbPGyHyBQlbS6Hg_iFDE8G_b',
 };

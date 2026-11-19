@@ -139,6 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const supabaseUrl = (config.supabaseUrl || '').trim().replace(/\/+$/, '');
     const supabaseKey = (config.supabaseAnonKey || '').trim();
     const useSupabase = Boolean(supabaseUrl && supabaseKey);
+    const buildHeaders = (extra = {}) => {
+      const headers = { apikey: supabaseKey, ...extra };
+      if (!supabaseKey.startsWith('sb_publishable_')) {
+        headers.Authorization = `Bearer ${supabaseKey}`;
+      }
+      return headers;
+    };
 
     const defaultEntries = [
       {
@@ -177,10 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const endpoint = `${supabaseUrl}/rest/v1/guestbook?select=id,author,message,created_at&order=created_at.desc&limit=30`;
         const response = await fetch(endpoint, {
-          headers: {
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
-          },
+          headers: buildHeaders(),
         });
         if (!response.ok) throw new Error('Gagal memuat pesan');
         const rows = await response.json();
@@ -257,12 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
           const response = await fetch(`${supabaseUrl}/rest/v1/guestbook`, {
             method: 'POST',
-            headers: {
+            headers: buildHeaders({
               'Content-Type': 'application/json',
-              apikey: supabaseKey,
-              Authorization: `Bearer ${supabaseKey}`,
               Prefer: 'return=representation',
-            },
+            }),
             body: JSON.stringify({ author, message }),
           });
 
