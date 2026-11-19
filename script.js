@@ -127,12 +127,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 3. Ruang Singgah: Jejak Singgah (Kotak Pesan Pembaca)
+  // 3. Ruang Singgah: Jejak Singgah (Kotak Pesan Pembaca — Supabase + fallback localStorage)
   const guestbookForm = document.getElementById('guestbook-form');
   const guestbookList = document.getElementById('guestbook-list');
+  const guestbookSubmit = document.getElementById('guestbook-submit');
+  const guestbookStatus = document.getElementById('guestbook-status');
 
   if (guestbookForm && guestbookList) {
     const STORAGE_KEY = 'notesbysuryani_guestbook_v1';
+    const config = window.NOTES_CONFIG || {};
+    const supabaseUrl = (config.supabaseUrl || '').trim().replace(/\/+$/, '');
+    const supabaseKey = (config.supabaseAnonKey || '').trim();
+    const useSupabase = Boolean(supabaseUrl && supabaseKey);
+
     const defaultEntries = [
       {
         author: 'Catatan Pembuka',
@@ -142,7 +149,18 @@ document.addEventListener('DOMContentLoaded', () => {
       },
     ];
 
-    const loadEntries = () => {
+    const formatDate = (isoString) => {
+      if (!isoString) return '';
+      const parsed = new Date(isoString);
+      if (Number.isNaN(parsed.getTime())) return isoString;
+      return parsed.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    };
+
+    const loadLocalEntries = () => {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return defaultEntries;
@@ -150,6 +168,28 @@ document.addEventListener('DOMContentLoaded', () => {
         return Array.isArray(parsed) && parsed.length > 0
           ? parsed
           : defaultEntries;
+      } catch {
+        return defaultEntries;
+      }
+    };
+
+    const loadSupabaseEntries = async () => {
+      try {
+        const endpoint = `${supabaseUrl}/rest/v1/guestbook?select=id,author,message,created_at&order=created_at.desc&limit=30`;
+        const response = await fetch(endpoint, {
+          headers: {
+            apikey: supabaseKey,
+            Authorization: `Bearer ${supabaseKey}`,
+          },
+        });
+        if (!response.ok) throw new Error('Gagal memuat pesan');
+        const rows = await response.json();
+        if (!Array.isArray(rows) || rows.length === 0) return defaultEntries;
+        return rows.map((row) => ({
+          author: row.author,
+          date: formatDate(row.created_at),
+          message: row.message,
+        }));
       } catch {
         return defaultEntries;
       }
@@ -184,10 +224,23 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
 
-    let entries = loadEntries();
-    renderEntries(entries);
+    let entries = defaultEntries;
 
-    guestbookForm.addEventListener('submit', (event) => {
+    if (useSupabase) {
+      loadSupabaseEntries().then((rows) => {
+        entries = rows;
+        renderEntries(entries);
+      });
+    } else {
+      entries = loadLocalEntries();
+      renderEntries(entries);
+      if (guestbookStatus) {
+        guestbookStatus.textContent =
+          'Mode lokal aktif (isi config.js dengan Supabase agar pesan tampil untuk semua pengunjung).';
+      }
+    }
+
+    guestbookForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const nameInput = document.getElementById('visitor-name');
       const messageInput = document.getElementById('visitor-message');
@@ -196,13 +249,55 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!message) return;
 
       const author = nameInput.value.trim() || 'Seseorang yang singgah';
-      const now = new Date();
-      const dateLabel = now.toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      });
 
+      if (useSupabase) {
+        if (guestbookSubmit) guestbookSubmit.disabled = true;
+        if (guestbookStatus) guestbookStatus.textContent = 'Mengirim pesan...';
+
+        try {
+          const response = await fetch(`${supabaseUrl}/rest/v1/guestbook`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: supabaseKey,
+              Authorization: `Bearer ${supabaseKey}`,
+              Prefer: 'return=representation',
+            },
+            body: JSON.stringify({ author, message }),
+          });
+
+          if (!response.ok) throw new Error('Gagal mengirim pesan');
+          const inserted = await response.json();
+          const newEntry = Array.isArray(inserted) && inserted[0]
+            ? {
+                author: inserted[0].author,
+                date: formatDate(inserted[0].created_at),
+                message: inserted[0].message,
+              }
+            : {
+                author,
+                date: formatDate(new Date().toISOString()),
+                message,
+              };
+
+          entries = [newEntry, ...entries.filter((e) => e.date !== 'Ruang Singgah')];
+          renderEntries(entries);
+          guestbookForm.reset();
+          if (guestbookStatus) {
+            guestbookStatus.textContent = 'Terima kasih, pesanmu sudah dititipkan.';
+          }
+        } catch {
+          if (guestbookStatus) {
+            guestbookStatus.textContent =
+              'Maaf, pesan belum berhasil terkirim. Coba beberapa saat lagi.';
+          }
+        } finally {
+          if (guestbookSubmit) guestbookSubmit.disabled = false;
+        }
+        return;
+      }
+
+      const dateLabel = formatDate(new Date().toISOString());
       entries = [{ author, date: dateLabel, message }, ...entries].slice(0, 20);
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
